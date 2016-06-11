@@ -17,6 +17,7 @@ from models import QB_YTD_STATS
 def index():
 		errors = []
 		results = {}
+		data_label = []
 		if request.method == "POST":
 			  try:
 			  	url = request.form['url']
@@ -28,13 +29,16 @@ def index():
 			  		)
 			  	return render_template('index.html', errors=errors)
 			  if r:
+						thead = soup.find("tr", { "class" : "label" })
+						for label in thead.findAll("a"):
+							for text in label:
+								print(text)
 						table = soup.find("table", { "class" : "data" })
 						for row in table.findAll("tr"):
 							for cell in row.findAll("td"):
 								for data in cell:
 									print(data)
-
-
+									
 		return render_template('index.html', errors=errors,results=results)
 if __name__ == '__main__':
 	app.run()
